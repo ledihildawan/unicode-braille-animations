@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Braille UI ⠿ | Premium Scenarios</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Modern CSS Reset & Context */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      color-scheme: dark;
+      
+      /* Pure Dark UI Colors */
+      --bg-base: oklch(12% 0.01 250);
+      --bg-surface: oklch(15% 0.01 250);
+      --text-primary: oklch(98% 0 0);
+      --text-secondary: oklch(70% 0.01 250);
+      --text-muted: oklch(50% 0.01 250);
+      
+      /* Vivid Accents */
+      --accent-main: oklch(70% 0.15 250);
+      --accent-glow: oklch(60% 0.25 260 / 0.15);
+      --status-success: oklch(75% 0.18 150);
+      
+      /* Borders & Shadows */
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-strong: rgba(255, 255, 255, 0.12);
+      --shadow-sm: 0 4px 12px -2px rgba(0,0,0,0.4);
+      --shadow-lg: 0 24px 48px -12px rgba(0,0,0,0.6), inset 0 1px 0 0 rgba(255,255,255,0.04);
+      
+      /* Easing */
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* Snappy spring for clicks */
+      
+      /* Loader Lib Core */
+      --loader-shimmer-base: rgba(255, 255, 255, 0.25);
+      --loader-shimmer-peak: #ffffff;
+      --loader-glow-color: #ffffff;
+      --loader-glow-sm: 0.125rem;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(circle at 15% 0%, color-mix(in oklch, var(--accent-main) 6%, transparent) 0%, transparent 40%),
+        radial-gradient(circle at 85% 100%, color-mix(in oklch, var(--accent-main) 4%, transparent) 0%, transparent 40%);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      position: relative;
+    }
+
+    /* Subtle Grain/Noise Overlay for Premium Tactile Feel */
+    body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.025;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* --- ENTRANCE ANIMATION --- */
+    @keyframes fadeIn {
+      0% { opacity: 0; filter: blur(4px); transform: translateY(10px); }
+      100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+    }
+
+    /* --- BENTO GRID LAYOUT --- */
+    .bento-wrapper {
+      width: 100%;
+      max-width: 64rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(16rem, auto);
+      gap: 1.25rem;
+    }
+
+    .bento-card {
+      position: relative;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: border-color 0.4s var(--ease-smooth);
+      
+      opacity: 0;
+      animation: fadeIn 0.8s var(--ease-smooth) forwards;
+      will-change: opacity, transform, border-color;
+    }
+    
+    .bento-card:nth-child(1) { animation-delay: 0.1s; }
+    .bento-card:nth-child(2) { animation-delay: 0.2s; }
+    .bento-card:nth-child(3) { animation-delay: 0.3s; }
+
+    .bento-card.col-span-8 { grid-column: span 12; }
+    .bento-card.col-span-4 { grid-column: span 12; }
+    .bento-card.col-span-12 { grid-column: span 12; }
+
+    @media (min-width: 48rem) {
+      .bento-card.col-span-8 { grid-column: span 7; }
+      .bento-card.col-span-4 { grid-column: span 5; }
+    }
+
+    /* Elegant Spotlight Hover */
+    .bento-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        var(--accent-glow),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.5s var(--ease-smooth);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bento-card:hover::before { opacity: 1; }
+    .bento-card:hover { border-color: var(--border-strong); }
+    .bento-card > * { position: relative; z-index: 1; }
+
+    /* Card Typography */
+    .card-header { margin-bottom: 2rem; }
+    .card-header h2 { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); }
+    .card-header p { font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.35rem; line-height: 1.6; }
+    .badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; background: rgba(255,255,255,0.06); border-radius: 99px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; border: 1px solid var(--border-subtle); color: var(--text-secondary); }
+
+    /* --- USE CASE 1: PREMIUM BUTTONS (ANTI-CLS) --- */
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.875rem;
+      margin-top: auto;
+    }
+
+    .btn {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+      color: var(--text-primary);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0 1.25rem;
+      height: 2.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      
+      box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.05), 0 2px 4px rgba(0,0,0,0.2);
+      display: grid;
+      place-items: center;
+      
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease-spring);
+      user-select: none;
+      outline-offset: 2px;
+    }
+    
+    .btn:hover { 
+      background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.08), 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .btn:active { 
+      transform: scale(0.97);
+      background: rgba(255,255,255,0.03); 
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2); 
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      border-color: var(--border-subtle);
+      box-shadow: none;
+    }
+    .btn-secondary:hover { 
+      background: rgba(255,255,255,0.04); 
+      border-color: var(--border-strong); 
+      box-shadow: none;
+    }
+    .btn-secondary:active { background: rgba(255,255,255,0.02); }
+
+    /* Invisible spacer ensures button width is locked */
+    .btn-spacer {
+      grid-area: 1 / 1;
+      visibility: hidden;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-content, .btn-loader, .btn-success {
+      grid-area: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: opacity 0.25s var(--ease-smooth);
+    }
+
+    .btn-loader { opacity: 0; }
+    .btn-success { opacity: 0; color: var(--status-success); }
+    
+    /* State: Loading */
+    .btn.is-loading { pointer-events: none; }
+    .btn.is-loading .btn-content { opacity: 0; }
+    .btn.is-loading .btn-loader { opacity: 1; }
+
+    /* State: Success */
+    .btn.is-success { 
+      pointer-events: none; 
+      background: color-mix(in oklch, var(--status-success) 8%, transparent); 
+      border-color: color-mix(in oklch, var(--status-success) 30%, transparent); 
+      box-shadow: none;
+    }
+    .btn.is-success .btn-content, .btn.is-success .btn-loader { opacity: 0; }
+    .btn.is-success .btn-success { opacity: 1; }
+
+    /* --- USE CASE 2: DEPLOYMENT PIPELINE (ANTI-CLS) --- */
+    .status-list { display: flex; flex-direction: column; gap: 0.25rem; }
+    
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem 0.875rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: all 0.3s var(--ease-smooth);
+      background: transparent;
+      border: 1px solid transparent;
+    }
+    
+    .status-icon { 
+      width: 1.25rem; 
+      display: inline-flex; 
+      justify-content: center; 
+      align-items: center;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 0.9rem;
+    }
+    
+    .status-item.active {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.03);
+      border-color: var(--border-subtle);
+    }
+    .status-item.active .braille-loader { color: var(--accent-main); text-shadow: 0 0 8px var(--accent-glow); }
+    
+    .status-item.done { color: var(--text-secondary); }
+    .status-item.done .status-icon { color: var(--status-success); }
+
+    /* --- USE CASE 3: NATIVE TERMINAL (ANTI-CLS) --- */
+    .terminal {
+      background: #000;
+      border: 1px solid var(--border-strong);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.8125rem;
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+    }
+    
+    /* Blinking Terminal Cursor */
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .term-cursor {
+      display: inline-block;
+      width: 0.5em;
+      height: 1.1em;
+      background-color: var(--text-muted);
+      vertical-align: text-bottom;
+      margin-left: 0.25rem;
+      animation: blink 1s step-end infinite;
+    }
+
+    .term-header { display: flex; gap: 0.4rem; margin-bottom: 0.5rem; }
+    .term-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
+    .term-dot.red { background: #ff5f56; }
+    .term-dot.yellow { background: #ffbd2e; }
+    .term-dot.green { background: #27c93f; }
+    
+    .term-line { display: flex; gap: 0.75rem; align-items: flex-start; line-height: 1.6; }
+    .term-icon { width: 1.25rem; display: inline-flex; justify-content: center; flex-shrink: 0; color: var(--text-muted); }
+    
+    .term-line.cmd .term-icon { color: var(--status-success); }
+    .term-line.muted { color: var(--text-muted); }
+    .term-line.active { color: var(--text-primary); }
+    .term-line .path { color: var(--accent-main); }
+
+    /* --- BRAILLE LIBRARY CORE --- */
+    .braille-loader { 
+      display: inline-flex; justify-content: center; align-items: center; 
+      font-variant-numeric: tabular-nums; line-height: normal; 
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; 
+    }
+    .braille-loader::after { 
+      display: inline-block; white-space: pre; 
+      background: linear-gradient(90deg, var(--loader-shimmer-base) 0%, color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 30%, var(--loader-shimmer-peak) 50%, color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 70%, var(--loader-shimmer-base) 100%); 
+      background-size: 200% auto; color: transparent; 
+      -webkit-background-clip: text; background-clip: text; 
+      will-change: background-position, filter, opacity; pointer-events: none; 
+    }
+
+    @keyframes l-swp { 0% { background-position: 200% center; filter: brightness(0.8); } 50% { filter: brightness(1.6) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)); } 100% { background-position: -200% center; filter: brightness(0.8); } }
+    @keyframes l-swp-diag { 0% { background-position: 200% 200%; filter: brightness(0.8); } 50% { filter: brightness(1.6) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)); } 100% { background-position: -200% -200%; filter: brightness(0.8); } }
+    @keyframes l-pls-sync { 0%, 50%, 100% { opacity: 0.4; filter: brightness(0.7); background-position: 200% center; } 18% { opacity: 1; filter: brightness(2) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)); background-position: 50% center; } 34% { background-position: -100% center; } }
+
+    .spinner-basic { width: 1ch; }
+    .spinner-basic::after { content: "⠋"; animation: sp-bsc 0.8s step-end infinite, l-swp 0.8s linear infinite; }
+    @keyframes sp-bsc{0%{content:"⠋"}10%{content:"⠙"}20%{content:"⠹"}30%{content:"⠸"}40%{content:"⠼"}50%{content:"⠴"}60%{content:"⠦"}70%{content:"⠧"}80%{content:"⠇"}90%{content:"⠏"}100%{content:"⠋"}}
+
+    .spinner-pulse { width: 3ch; }
+    .spinner-pulse::after { content: "⠀⠶⠀"; animation: sp-pls 1.4s step-end infinite, l-pls-sync 1.4s cubic-bezier(.1,.9,.2,1) infinite; }
+    @keyframes sp-pls{0%,100%{content:"⠀⠶⠀"}10%{content:"⠰⣿⠆"}18%{content:"⢾⣿⡷"}26%{content:"⢾⣉⡷"}34%{content:"⣏⣉⣹"}42%{content:"⡁⠀⢈"}50%{content:"⠀⠶⠀"}}
+
+    .spinner-cascade { width: 5ch; }
+    .spinner-cascade::after { content: "⠁⠀⠀⠀"; animation: sp-csc 1.1s step-end infinite, l-swp-diag 1.1s linear infinite; }
+    @keyframes sp-csc{0%,100%{content:"⠁⠀⠀⠀"}7.1%{content:"⠋⠀⠀⠀"}14.2%{content:"⠞⠁⠀⠀"}21.4%{content:"⡴⠋⠀⠀"}28.5%{content:"⣠⠞⠁⠀"}35.7%{content:"⢀⡴⠋⠀"}42.8%{content:"⠀⣠⠞⠁"}50%{content:"⠀⢀⡴⠋"}57.1%{content:"⠀⠀⣠⠞"}64.2%{content:"⠀⠀⢀⡴"}71.4%{content:"⠀⠀⠀⣠"}78.5%{content:"⠀⠀⠀⢀"}85.7%,92.8%{content:"⠀⠀⠀⠀"}}
+
+    .spinner-scan { width: 4ch; }
+    .spinner-scan::after { content: "⣿⠀⠀⠀"; animation: sp-scn 0.6s step-end infinite alternate, l-swp 0.6s ease-in-out infinite alternate; }
+    @keyframes sp-scn{0%{content:"⣿⠀⠀⠀"}16.6%{content:"⢸⡇⠀⠀"}33.3%{content:"⠀⣿⠀⠀"}50%{content:"⠀⢸⡇⠀"}66.6%{content:"⠀⠀⣿⠀"}83.3%{content:"⠀⠀⢸⡇"}100%{content:"⠀⠀⠀⣿"}}
+
+  </style>
+</head>
+<body>
+
+  <main class="bento-wrapper">
+    <div class="bento-grid">
+      
+      <section class="bento-card col-span-8 js-hover-card">
+        <div class="card-header">
+          <h2>Interactive States <span class="badge">.btn</span></h2>
+          <p>Zero CLS layout. Grid stacking ensures buttons maintain their exact width without layout shifting.</p>
+        </div>
+        <div class="button-group">
+          <button class="btn js-interactive-btn" aria-label="Deploy to Production" aria-live="polite">
+            <div class="btn-spacer" aria-hidden="true">Deploy to Production</div>
+            
+            <div class="btn-content">Deploy to Production</div>
+            <div class="btn-loader"><span class="braille-loader spinner-pulse" aria-hidden="true"></span></div>
+            <div class="btn-success">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Deployed
+            </div>
+          </button>
+          
+          <button class="btn btn-secondary js-interactive-btn" aria-label="Run Serverless Analysis" aria-live="polite">
+            <div class="btn-spacer" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"></svg>
+              Analysis Complete
+            </div>
+            
+            <div class="btn-content">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg>
+              Run Analysis
+            </div>
+            <div class="btn-loader"><span class="braille-loader spinner-basic" aria-hidden="true"></span> Analyzing...</div>
+            <div class="btn-success">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Complete
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <section class="bento-card col-span-4 js-hover-card">
+        <div class="card-header">
+          <h2>Edge Network <span class="badge">Status</span></h2>
+          <p>Fixed icon wrappers prevent text trembling.</p>
+        </div>
+        <div class="status-list" id="deploy-pipeline" aria-live="polite">
+          <div class="status-item done">
+            <div class="status-icon">✓</div>
+            <span>Validating config</span>
+          </div>
+          <div class="status-item active">
+            <div class="status-icon"><span class="braille-loader spinner-basic" aria-hidden="true"></span></div>
+            <span>Building static assets</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon">-</div>
+            <span>Assigning domains</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="bento-card col-span-12 js-hover-card">
+        <div class="card-header">
+          <h2>Build Output <span class="badge">Logs</span></h2>
+          <p>Pure text loaders feel natively integrated inside standard or custom web terminals.</p>
+        </div>
+        <div class="terminal">
+          <div class="term-header" aria-hidden="true">
+            <div class="term-dot red"></div><div class="term-dot yellow"></div><div class="term-dot green"></div>
+          </div>
+          <div class="term-line cmd">
+            <div class="term-icon">➜</div> 
+            <div><span class="path">Next.js 14.1.0</span></div>
+          </div>
+          <div class="term-line muted">
+            <div class="term-icon">-</div>
+            <div>Environments: .env.production</div>
+          </div>
+          <div class="term-line muted">
+            <div class="term-icon"><span class="braille-loader spinner-scan" aria-hidden="true"></span></div>
+            <div>Compiling client components (124/310)</div>
+          </div>
+          <div class="term-line active">
+            <div class="term-icon"><span class="braille-loader spinner-cascade" aria-hidden="true"></span></div>
+            <div>Creating an optimized production build...<span class="term-cursor"></span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // 1. Elegant Spotlight Tracking
+    document.querySelectorAll('.js-hover-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        requestAnimationFrame(() => {
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+      });
+    });
+
+    // 2. Button Interactive States with Accessibility
+    document.querySelectorAll('.js-interactive-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.classList.contains('is-loading') || this.classList.contains('is-success')) return;
+        
+        this.classList.add('is-loading');
+        this.setAttribute('aria-busy', 'true'); // A11y
+        
+        setTimeout(() => {
+          this.classList.remove('is-loading');
+          this.classList.add('is-success');
+          this.removeAttribute('aria-busy'); // A11y
+          
+          setTimeout(() => {
+            this.classList.remove('is-success');
+          }, 2000);
+          
+        }, 1500);
+      });
+    });
+
+    // 3. Deployment Pipeline Loop
+    function animatePipeline() {
+      const items = document.querySelectorAll('#deploy-pipeline .status-item');
+      let activeIndex = 1;
+
+      setInterval(() => {
+        items[activeIndex].classList.remove('active');
+        items[activeIndex].classList.add('done');
+        items[activeIndex].querySelector('.status-icon').innerHTML = '✓';
+
+        activeIndex++;
+        
+        if (activeIndex >= items.length) {
+          setTimeout(() => {
+            items.forEach((item, index) => {
+              item.className = 'status-item';
+              if(index === 0) {
+                item.classList.add('active');
+                item.querySelector('.status-icon').innerHTML = '<span class="braille-loader spinner-basic" aria-hidden="true"></span>';
+              } else {
+                item.querySelector('.status-icon').innerHTML = '-';
+              }
+            });
+            activeIndex = 0;
+          }, 2500);
+          return;
+        }
+
+        items[activeIndex].classList.remove('done');
+        items[activeIndex].classList.add('active');
+        items[activeIndex].querySelector('.status-icon').innerHTML = '<span class="braille-loader spinner-basic" aria-hidden="true"></span>';
+      }, 3500);
+    }
+
+    setTimeout(animatePipeline, 1000);
+  </script>
+</body>
+</html>

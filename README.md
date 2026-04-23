@@ -1,65 +1,74 @@
-# Unicode Braille Animations ⠿
+# Braille Spinners ⠿ | Pure CSS Loading Animations
 
-A seamless, lightweight, and pure CSS collection of loading indicators built entirely with Unicode Braille characters. 
+A zero-dependency collection of ultra-lightweight, pure CSS loading indicators built entirely with Unicode Braille characters. 
 
-Zero SVGs. Zero external dependencies. Infinitely scalable and copy-paste ready.
+**Zero SVGs. Zero Dependencies. Infinitely Scalable.**
+
+---
 
 ## ✨ Features
 
-- **Pure CSS:** No JavaScript required for the animations.
-- **Lightweight:** Uses native browser text rendering.
-- **Accessible:** Uses `aria-hidden` and `role="status"` for screen readers.
-- **Customizable:** Easily change colors, sizing, and glow effects via CSS variables.
-- **Theme Ready:** Built-in support for Light and Dark modes.
+- **Pure CSS Engine:** High-performance animations without a single line of JavaScript.
+- **Modern Color Space:** Powered by `OKLCH` for consistent luminance and vibrant "HDR-like" colors.
+- **Physical Bloom Effect:** Multi-layered shadows and non-linear gradients for a premium hardware feel.
+- **Ultra Lightweight:** Uses native browser text rendering—smaller than the tiniest SVG.
+- **SEO & A11y Optimized:** Fully accessible with semantic `role="status"` and screen-reader support.
 
 ## 🚀 Quick Start
 
-### 1. Add Base Configuration
-Add these base CSS variables to your global stylesheet. This controls the colors and glow effects.
+### 1. Global Configuration
+Add these design tokens to your `:root` or global stylesheet to control the atmospheric glow and shimmer.
 
 ```css
 :root {
-  --braille-shimmer-base: #3f3f46;
-  --braille-shimmer-peak: #ffffff;
-  --braille-glow: 10px #ffffff;
-  --braille-glow-sm: 6px #ffffff;
+  --loader-shimmer-base: #3f3f46;
+  --loader-shimmer-peak: #ffffff;
+  --loader-glow-lg: 0.625rem;
+  --loader-glow-sm: 0.125rem;
+  --loader-glow-color: #ffffff;
 }
 
 .braille-loader {
-  /* Keeps characters perfectly aligned */
+  /* Ensuring perfect grid alignment for unicode characters */
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .braille-loader::after {
-  display: inline-block; 
+  display: inline-block;
   white-space: pre;
-  background: linear-gradient(90deg, var(--braille-shimmer-base) 0%, var(--braille-shimmer-base) 30%, var(--braille-shimmer-peak) 50%, var(--braille-shimmer-base) 70%, var(--braille-shimmer-base) 100%);
-  background-size: 200% auto; 
+  background: linear-gradient(90deg, 
+    var(--loader-shimmer-base) 0%, 
+    color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 30%, 
+    var(--loader-shimmer-peak) 50%, 
+    color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 70%, 
+    var(--loader-shimmer-base) 100%);
+  background-size: 200% auto;
   color: transparent;
-  -webkit-background-clip: text; 
+  -webkit-background-clip: text;
   background-clip: text;
-  will-change: background-position, filter, opacity; 
+  will-change: background-position, filter;
   pointer-events: none;
 }
 ```
 
-### 2. Choose an Animation
-Pick an animation (e.g., Pulse) and add its specific keyframes to your CSS.
+### 2. Implementation Example: "Core Pulse"
+To use the "Core Pulse" animation, copy the following keyframes and class:
 
 ```css
-/* Animation Engine for Pulse */
+/* Physical Bloom Animation Engine */
 @keyframes l-pls-sync { 
-  0%, 50%, 100% { opacity: .3; filter: drop-shadow(0 0 0 transparent) brightness(.8); background-position: 200% center; } 
-  18% { opacity: 1; filter: drop-shadow(0 0 var(--braille-glow)) brightness(1.5) contrast(1.2); background-position: 50% center; } 
+  0%, 50%, 100% { opacity: 0.3; filter: brightness(0.5); background-position: 200% center; } 
+  18% { 
+    opacity: 1; 
+    filter: brightness(1.8) 
+            drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)) 
+            drop-shadow(0 0 calc(var(--loader-glow-lg) * 2) color-mix(in oklch, var(--loader-glow-color) 60%, transparent)); 
+    background-position: 50% center; 
+  } 
   34% { background-position: -100% center; } 
 }
 
-/* Component Class */
-.spinner-pulse::after { 
-  content: "⠀⠶⠀"; 
-  animation: sp-pls 1.4s step-end infinite, l-pls-sync 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite; 
-}
-
+/* Unicode Transition Engine */
 @keyframes sp-pls { 
   0%, 100% { content: "⠀⠶⠀"; } 
   10% { content: "⠰⣿⠆"; } 
@@ -69,37 +78,33 @@ Pick an animation (e.g., Pulse) and add its specific keyframes to your CSS.
   42% { content: "⡁⠀⢈"; } 
   50% { content: "⠀⠶⠀"; } 
 }
+
+.spinner-pulse::after { 
+  content: "⠀⠶⠀"; 
+  animation: sp-pls 1.4s step-end infinite, 
+             l-pls-sync 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) infinite; 
+}
 ```
 
-### 3. Use in HTML
-Call the class anywhere in your HTML markup.
+### 3. Usage
+Simply call the class in your HTML:
 
 ```html
 <span class="braille-loader spinner-pulse" role="status" aria-label="Loading"></span>
 ```
 
-## 🎨 Available Snippets
-Visit the live demo to copy-paste directly:
-- Cascade Drop
-- Ripple Wave
-- Twin Helix
-- Matrix Rain
-- Breathing Focus
-- Diagonal Wipe
-- Core Pulse
-- Slithering Snake
-- Static Glitch
-- Rising Columns
-- Radar Scan
-- Fill Sweep
-- Satellite Orbit
-- Stardust Sparkle
-- Classic Spinner
+## 🎨 Available Animations
+Visit our live demo for full snippets of:
+- **Cascade Drop** - Fluid falling particles.
+- **Twin Helix** - Dynamic 3D-like DNA structure.
+- **Matrix Rain** - Cyberpunk digital rain effect.
+- **Breathing Focus** - Smooth expansion & contraction.
+- **Slithering Snake** - Classic nostalgic snake path.
+- **Rising Columns** - Equalizer-style vertical growth.
+- **Classic Spinner** - The reliable CLI-style loader.
 
 ## 👨‍💻 Author
-
-Crafted by **[Ledi Hildawan](https://www.instagram.com/ledihildawan)** for the Developer Community.
+Crafted with passion by **[Ledi Hildawan](https://www.instagram.com/ledihildawan)**.
 
 ## 📄 License
-
-This project is released under the [MIT License](LICENSE).
+This project is open-source and available under the [MIT License](LICENSE).
