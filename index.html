@@ -414,6 +414,13 @@
 
     .braille-loader { display: inline-flex; justify-content: center; align-items: center; font-variant-numeric: tabular-nums; line-height: normal; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
     .braille-loader::after { display: inline-block; white-space: pre; background: linear-gradient(90deg, var(--loader-shimmer-base) 0%, color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 30%, var(--loader-shimmer-peak) 50%, color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 70%, var(--loader-shimmer-base) 100%); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; will-change: background-position, filter, opacity; pointer-events: none; }
+    .braille-loader[data-loader-context="inline"] { --loader-intensity: 0.82; }
+    .braille-loader[data-loader-context="status"] { --loader-intensity: 0.92; }
+    .braille-loader[data-loader-context="preview"] { --loader-intensity: 1; }
+    .braille-loader[data-loader-context="showcase"] { --loader-intensity: 1; }
+    .braille-loader[data-loader-size="compact"] { --loader-size: 0.875em; }
+    .braille-loader[data-loader-size="hero"] { --loader-size: 1.5em; }
+    .braille-loader[data-loader-quality="minimal"]::after { background: none; color: currentColor; filter: none !important; opacity: var(--loader-intensity) !important; -webkit-background-clip: border-box; background-clip: border-box; }
     .card .braille-loader::after { animation-play-state: paused; }
     .card:hover .braille-loader::after,
     .card:focus-visible .braille-loader::after,
