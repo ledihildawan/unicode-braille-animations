@@ -446,6 +446,14 @@
     @keyframes l-snake-sync { 0%, 50%, 100% { background-position: 165% center; filter: brightness(.82); } 25%, 75% { background-position: -165% center; filter: brightness(1.18); } }
     @keyframes l-sweep-sync { 0%, 100% { background-position: center 170%; filter: brightness(.72); } 50% { background-position: center 45%; filter: brightness(1.3) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)); } }
     @keyframes l-bsc-sync { 0%, 100% { filter: brightness(.78); } 50% { filter: brightness(1.35) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)); } }
+    @keyframes a11y-progress { 0%, 100% { content: "\280B"; } 50% { content: "\2834"; } }
+    @media (prefers-reduced-motion: reduce) {
+      .braille-loader::after {
+        background: none;
+        color: currentColor;
+        animation: a11y-progress 2.4s step-end infinite !important;
+      }
+    }
 
     /* Braille Spinner Core Animations */
     .spinner-cascade { width: 5ch; }
