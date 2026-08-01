@@ -14,6 +14,42 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Braille Spinners ⠿ | Pure CSS Animations">
   <meta name="twitter:description" content="Zero-dependency, pure CSS loading spinners built entirely with Unicode Braille characters. Copy, paste, and ship.">
+  <meta name="theme-color" content="#0d0f12">
+  <link rel="canonical" href="https://ledihildawan.github.io/unicode-braille-animations/">
+  <meta property="og:url" content="https://ledihildawan.github.io/unicode-braille-animations/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://ledihildawan.github.io/unicode-braille-animations/assets/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A collection of animated Unicode Braille loading indicators on a dark interface.">
+  <meta name="twitter:image" content="https://ledihildawan.github.io/unicode-braille-animations/assets/social-preview.png">
+  <meta name="twitter:image:alt" content="A collection of animated Unicode Braille loading indicators on a dark interface.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Braille Spinners",
+        "url": "https://ledihildawan.github.io/unicode-braille-animations/",
+        "description": "A zero-dependency collection of pure CSS loading spinners built with Unicode Braille characters.",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "name": "Unicode Braille Animations",
+        "codeRepository": "https://github.com/ledihildawan/unicode-braille-animations",
+        "programmingLanguage": ["HTML", "CSS", "JavaScript"],
+        "license": "https://opensource.org/license/mit",
+        "author": {
+          "@type": "Person",
+          "name": "Ledi Hildawan"
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -88,6 +124,7 @@
 
     *:focus-visible { outline: 2px solid var(--clr-accent-500); outline-offset: 4px; transition: outline-offset var(--dur-fast) var(--ease-spring); }
     .hide-mobile { display: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     ::view-transition-group(active-card) { animation-duration: 0.5s; animation-timing-function: var(--ease-spring); }
     ::view-transition-old(active-card), ::view-transition-new(active-card) { height: 100%; width: 100%; object-fit: none; }
     @keyframes slideUpFade { from { opacity: 0; transform: translateY(2rem) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -377,6 +414,11 @@
 
     .braille-loader { display: inline-flex; justify-content: center; align-items: center; font-variant-numeric: tabular-nums; line-height: normal; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
     .braille-loader::after { display: inline-block; white-space: pre; background: linear-gradient(90deg, var(--loader-shimmer-base) 0%, color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 30%, var(--loader-shimmer-peak) 50%, color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 70%, var(--loader-shimmer-base) 100%); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; will-change: background-position, filter, opacity; pointer-events: none; }
+    .card .braille-loader::after { animation-play-state: paused; }
+    .card:hover .braille-loader::after,
+    .card:focus-visible .braille-loader::after,
+    .card.is-animating .braille-loader::after { animation-play-state: running; }
+    #lightbox-card.active .braille-loader::after { animation-play-state: running; }
 
     @keyframes l-swp { 0% { background-position: 200% center; filter: brightness(0.6) contrast(1.2); } 50% { filter: brightness(1.5) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)) drop-shadow(0 0 var(--loader-glow-lg) color-mix(in oklch, var(--loader-glow-color) 40%, transparent)); } 100% { background-position: -200% center; filter: brightness(0.6) contrast(1.2); } }
     @keyframes l-swp-diag { 0% { background-position: 200% 200%; filter: brightness(0.6) contrast(1.2); } 50% { filter: brightness(1.5) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)) drop-shadow(0 0 var(--loader-glow-lg) color-mix(in oklch, var(--loader-glow-color) 40%, transparent)); } 100% { background-position: -200% -200%; filter: brightness(0.6) contrast(1.2); } }
@@ -425,7 +467,7 @@
     
     .spinner-columns { width: 3ch; }
     .spinner-columns::after { content: "⠀⠀⠀"; animation: sp-col 1.8s step-end infinite, l-swp-y-up 1.8s linear infinite; }
-    @keyframes sp-col{0%,100%{content:"⠀⠀⠀"}4%{content:"⡀⠀⠀"}8%{content:"⡄⠀⠀"}12%{content:"⡆⠀⠀"}16%{content:"⡇⠀⠀"}20%{content:"⣇⠀⠀"}24%{content:"⣧⠀⠀"}28%{content:"⣷⠀⠀"}32%{content:"⣿⠀⠀"}36%{content:"⣿⡀⠀"}40%{content:"⣿⡄⠀"}44%{content:"⣿⡆⠀"}48%{content:"⣿⡇⠀"}52%{content:"⣿⣇⠀"}56%{content:"⣿⣧⠀"}60%{content:"⣿⣷⠀"}64%{content:"⣿⠀"}68%{content:"⣿⣿⡀"}72%{content:"⣿⣿⡄"}76%{content:"⣿⣿⡆"}80%{content:"⣿⣿⡇"}84%{content:"⣿⣿⣇"}88%{content:"⣿⣿⣧"}92%{content:"⣿⣿⣷"}96%{content:"⣿⣿⣿"}}
+    @keyframes sp-col{0%,100%{content:"⠀⠀⠀"}4%{content:"⡀⠀⠀"}8%{content:"⡄⠀⠀"}12%{content:"⡆⠀⠀"}16%{content:"⡇⠀⠀"}20%{content:"⣇⠀⠀"}24%{content:"⣧⠀⠀"}28%{content:"⣷⠀⠀"}32%{content:"⣿⠀⠀"}36%{content:"⣿⡀⠀"}40%{content:"⣿⡄⠀"}44%{content:"⣿⡆⠀"}48%{content:"⣿⡇⠀"}52%{content:"⣿⣇⠀"}56%{content:"⣿⣧⠀"}60%{content:"⣿⣷⠀"}64%{content:"⣿⣷"}68%{content:"⣿⣿⡀"}72%{content:"⣿⣿⡄"}76%{content:"⣿⣿⡆"}80%{content:"⣿⣿⡇"}84%{content:"⣿⣿⣇"}88%{content:"⣿⣿⣧"}92%{content:"⣿⣿⣷"}96%{content:"⣿⣿⣿"}}
     
     .spinner-scan { width: 4ch; }
     .spinner-scan::after { content: "⣿⠀⠀⠀"; animation: sp-scn 0.6s step-end infinite alternate, l-swp 0.6s ease-in-out infinite alternate; }
@@ -450,6 +492,7 @@
   </style>
 </head>
 <body>
+  <a href="#collection" class="sr-only">Skip to collection</a>
   <nav class="navbar" aria-label="Main Navigation">
     <div class="navbar-logo">
       <span class="hide-mobile">Unicode&nbsp;</span>Braille 
@@ -505,78 +548,78 @@
     </section>
 
     <section class="grid-container reveal-on-scroll" id="cards-grid" aria-label="Spinner Collection">
-      <div class="card" data-snippet="spinner-cascade" data-name="Cascade Drop" role="button" tabindex="0" aria-label="View Cascade Drop snippet">
-        <div class="card-title">Cascade Drop</div>
+      <div class="card" data-snippet="spinner-cascade" data-name="Cascade Drop" role="button" tabindex="0" aria-labelledby="spinner-cascade-title" aria-label="View Cascade Drop snippet">
+        <div class="card-title" id="spinner-cascade-title">Cascade Drop</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-cascade" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-wave" data-name="Ripple Wave" role="button" tabindex="0" aria-label="View Ripple Wave snippet">
-        <div class="card-title">Ripple Wave</div>
+      <div class="card" data-snippet="spinner-wave" data-name="Ripple Wave" role="button" tabindex="0" aria-labelledby="spinner-wave-title" aria-label="View Ripple Wave snippet">
+        <div class="card-title" id="spinner-wave-title">Ripple Wave</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-wave" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-helix" data-name="Twin Helix" role="button" tabindex="0" aria-label="View Twin Helix snippet">
-        <div class="card-title">Twin Helix</div>
+      <div class="card" data-snippet="spinner-helix" data-name="Twin Helix" role="button" tabindex="0" aria-labelledby="spinner-helix-title" aria-label="View Twin Helix snippet">
+        <div class="card-title" id="spinner-helix-title">Twin Helix</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-helix" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-rain" data-name="Matrix Rain" role="button" tabindex="0" aria-label="View Matrix Rain snippet">
-        <div class="card-title">Matrix Rain</div>
+      <div class="card" data-snippet="spinner-rain" data-name="Matrix Rain" role="button" tabindex="0" aria-labelledby="spinner-rain-title" aria-label="View Matrix Rain snippet">
+        <div class="card-title" id="spinner-rain-title">Matrix Rain</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-rain" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-breathe" data-name="Breathing Focus" role="button" tabindex="0" aria-label="View Breathing Focus snippet">
-        <div class="card-title">Breathing Focus</div>
+      <div class="card" data-snippet="spinner-breathe" data-name="Breathing Focus" role="button" tabindex="0" aria-labelledby="spinner-breathe-title" aria-label="View Breathing Focus snippet">
+        <div class="card-title" id="spinner-breathe-title">Breathing Focus</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-breathe" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-diagonal" data-name="Diagonal Wipe" role="button" tabindex="0" aria-label="View Diagonal Wipe snippet">
-        <div class="card-title">Diagonal Wipe</div>
+      <div class="card" data-snippet="spinner-diagonal" data-name="Diagonal Wipe" role="button" tabindex="0" aria-labelledby="spinner-diagonal-title" aria-label="View Diagonal Wipe snippet">
+        <div class="card-title" id="spinner-diagonal-title">Diagonal Wipe</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-diagonal" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-pulse" data-name="Core Pulse" role="button" tabindex="0" aria-label="View Core Pulse snippet">
-        <div class="card-title">Core Pulse</div>
+      <div class="card" data-snippet="spinner-pulse" data-name="Core Pulse" role="button" tabindex="0" aria-labelledby="spinner-pulse-title" aria-label="View Core Pulse snippet">
+        <div class="card-title" id="spinner-pulse-title">Core Pulse</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-pulse" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-snake" data-name="Slithering Snake" role="button" tabindex="0" aria-label="View Slithering Snake snippet">
-        <div class="card-title">Slithering Snake</div>
+      <div class="card" data-snippet="spinner-snake" data-name="Slithering Snake" role="button" tabindex="0" aria-labelledby="spinner-snake-title" aria-label="View Slithering Snake snippet">
+        <div class="card-title" id="spinner-snake-title">Slithering Snake</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-snake" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-glitch" data-name="Static Glitch" role="button" tabindex="0" aria-label="View Static Glitch snippet">
-        <div class="card-title">Static Glitch</div>
+      <div class="card" data-snippet="spinner-glitch" data-name="Static Glitch" role="button" tabindex="0" aria-labelledby="spinner-glitch-title" aria-label="View Static Glitch snippet">
+        <div class="card-title" id="spinner-glitch-title">Static Glitch</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-glitch" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-columns" data-name="Rising Columns" role="button" tabindex="0" aria-label="View Rising Columns snippet">
-        <div class="card-title">Rising Columns</div>
+      <div class="card" data-snippet="spinner-columns" data-name="Rising Columns" role="button" tabindex="0" aria-labelledby="spinner-columns-title" aria-label="View Rising Columns snippet">
+        <div class="card-title" id="spinner-columns-title">Rising Columns</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-columns" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-scan" data-name="Radar Scan" role="button" tabindex="0" aria-label="View Radar Scan snippet">
-        <div class="card-title">Radar Scan</div>
+      <div class="card" data-snippet="spinner-scan" data-name="Radar Scan" role="button" tabindex="0" aria-labelledby="spinner-scan-title" aria-label="View Radar Scan snippet">
+        <div class="card-title" id="spinner-scan-title">Radar Scan</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-scan" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-sweep" data-name="Fill Sweep" role="button" tabindex="0" aria-label="View Fill Sweep snippet">
-        <div class="card-title">Fill Sweep</div>
+      <div class="card" data-snippet="spinner-sweep" data-name="Fill Sweep" role="button" tabindex="0" aria-labelledby="spinner-sweep-title" aria-label="View Fill Sweep snippet">
+        <div class="card-title" id="spinner-sweep-title">Fill Sweep</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-sweep" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-orbit" data-name="Satellite Orbit" role="button" tabindex="0" aria-label="View Satellite Orbit snippet">
-        <div class="card-title">Satellite Orbit</div>
+      <div class="card" data-snippet="spinner-orbit" data-name="Satellite Orbit" role="button" tabindex="0" aria-labelledby="spinner-orbit-title" aria-label="View Satellite Orbit snippet">
+        <div class="card-title" id="spinner-orbit-title">Satellite Orbit</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-orbit" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-sparkle" data-name="Stardust Sparkle" role="button" tabindex="0" aria-label="View Stardust Sparkle snippet">
-        <div class="card-title">Stardust Sparkle</div>
+      <div class="card" data-snippet="spinner-sparkle" data-name="Stardust Sparkle" role="button" tabindex="0" aria-labelledby="spinner-sparkle-title" aria-label="View Stardust Sparkle snippet">
+        <div class="card-title" id="spinner-sparkle-title">Stardust Sparkle</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-sparkle" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
-      <div class="card" data-snippet="spinner-basic" data-name="Classic Spinner" role="button" tabindex="0" aria-label="View Classic Spinner snippet">
-        <div class="card-title">Classic Spinner</div>
+      <div class="card" data-snippet="spinner-basic" data-name="Classic Spinner" role="button" tabindex="0" aria-labelledby="spinner-basic-title" aria-label="View Classic Spinner snippet">
+        <div class="card-title" id="spinner-basic-title">Classic Spinner</div>
         <div class="spinner-wrapper"><span class="braille-loader spinner-basic" aria-hidden="true"></span></div>
         <div class="expand-hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8M9 9 3 3m6 6V4.2M9 9H4.2"/></svg><span>View</span></div>
       </div>
@@ -702,6 +745,24 @@
     revealElements.forEach(el => {
       if(!prefersReducedMotion.matches) revealObserver.observe(el);
       else el.classList.add('is-visible');
+    });
+
+    const cards = document.querySelectorAll('.card');
+    const cardObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-animating');
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.1,
+      rootMargin: "160px 0px"
+    });
+
+    cards.forEach(card => {
+      if(!prefersReducedMotion.matches) cardObserver.observe(card);
+      else card.classList.add('is-animating');
     });
 
     const htmlEl = document.documentElement;
