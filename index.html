@@ -727,7 +727,7 @@
         border: 1px solid var(--border-subtle);
         border-radius: var(--radius-md);
         padding: 1.5rem;
-        min-block-size: 12.5rem;
+        min-block-size: 15rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -958,7 +958,13 @@
         color: var(--text-primary);
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        margin-block-end: 3rem;
+        margin-block-end: 0.5rem;
+        text-align: center;
+      }
+      #lightbox-desc {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin-block-end: 2rem;
         text-align: center;
       }
       #lightbox-spinner-wrapper {
@@ -1432,6 +1438,7 @@
           class="card"
           data-snippet="spinner-cascade"
           data-name="Cascade Drop"
+          data-desc="Dots cascade downward in sequence"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-cascade-title"
@@ -1446,6 +1453,7 @@
           class="card"
           data-snippet="spinner-wave"
           data-name="Ripple Wave"
+          data-desc="Ripple effect sweeps left to right"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-wave-title"
@@ -1460,6 +1468,7 @@
           class="card"
           data-snippet="spinner-helix"
           data-name="Twin Helix"
+          data-desc="Twin braille patterns spiral around each other"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-helix-title"
@@ -1474,6 +1483,7 @@
           class="card"
           data-snippet="spinner-rain"
           data-name="Matrix Rain"
+          data-desc="Dots fall like matrix rain"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-rain-title"
@@ -1488,6 +1498,7 @@
           class="card"
           data-snippet="spinner-breathe"
           data-name="Breathing Focus"
+          data-desc="Dots expand and contract smoothly"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-breathe-title"
@@ -1502,6 +1513,7 @@
           class="card"
           data-snippet="spinner-diagonal"
           data-name="Diagonal Wipe"
+          data-desc="Diagonal wipe pattern cycles through"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-diagonal-title"
@@ -1516,6 +1528,7 @@
           class="card"
           data-snippet="spinner-pulse"
           data-name="Core Pulse"
+          data-desc="Core element pulses with rhythmic expansion"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-pulse-title"
@@ -1530,6 +1543,7 @@
           class="card"
           data-snippet="spinner-snake"
           data-name="Slithering Snake"
+          data-desc="Pattern slithers in a winding path"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-snake-title"
@@ -1544,6 +1558,7 @@
           class="card"
           data-snippet="spinner-glitch"
           data-name="Static Glitch"
+          data-desc="Static glitch effect with random flicker"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-glitch-title"
@@ -1558,6 +1573,7 @@
           class="card"
           data-snippet="spinner-columns"
           data-name="Rising Columns"
+          data-desc="Columns rise and reset sequentially"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-columns-title"
@@ -1572,6 +1588,7 @@
           class="card"
           data-snippet="spinner-scan"
           data-name="Radar Scan"
+          data-desc="Radar sweep rotates continuously"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-scan-title"
@@ -1586,6 +1603,7 @@
           class="card"
           data-snippet="spinner-sweep"
           data-name="Fill Sweep"
+          data-desc="Fill sweeps across in a circular motion"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-sweep-title"
@@ -1600,6 +1618,7 @@
           class="card"
           data-snippet="spinner-orbit"
           data-name="Satellite Orbit"
+          data-desc="Satellite dots orbit around center"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-orbit-title"
@@ -1614,6 +1633,7 @@
           class="card"
           data-snippet="spinner-sparkle"
           data-name="Stardust Sparkle"
+          data-desc="Stardust particles twinkle randomly"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-sparkle-title"
@@ -1628,6 +1648,7 @@
           class="card"
           data-snippet="spinner-basic"
           data-name="Classic Spinner"
+          data-desc="Classic rotating braille dot pattern"
           role="button"
           tabindex="0"
           aria-labelledby="spinner-basic-title"
@@ -1660,6 +1681,7 @@
           </svg>
         </button>
         <div id="lightbox-title"></div>
+        <div id="lightbox-desc"></div>
         <div id="lightbox-spinner-wrapper"></div>
         <div class="lightbox-actions">
           <button class="action-btn" id="btn-copy-html" aria-label="Copy HTML to clipboard">
@@ -1908,6 +1930,7 @@
           lightboxBackdrop: document.getElementById('lightbox-backdrop'),
           lightboxCard: document.getElementById('lightbox-card'),
           lightboxTitle: document.getElementById('lightbox-title'),
+          lightboxDesc: document.getElementById('lightbox-desc'),
           lightboxSpinner: document.getElementById('lightbox-spinner-wrapper'),
           btnCopyCss: document.getElementById('btn-copy-css'),
           btnCopyHtml: document.getElementById('btn-copy-html'),
@@ -2181,7 +2204,7 @@
           notifyInteraction();
           lightboxState.activeCard = card;
 
-          const { snippet, name } = card.dataset;
+          const { snippet, name, desc } = card.dataset;
           lightboxState.currentSnippet = {
             className: snippet,
             name: name,
@@ -2189,6 +2212,7 @@
           };
 
           dom.lightboxTitle.textContent = name;
+          dom.lightboxDesc.textContent = desc || '';
           dom.lightboxSpinner.innerHTML = `<span class="braille-spinner ${snippet}" aria-hidden="true"></span>`;
           resetCopyState(dom.btnCopyHtml);
           resetCopyState(dom.btnCopyCss);
