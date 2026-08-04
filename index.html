@@ -794,30 +794,25 @@
         transform: translateY(0) scale(0.96);
         transition: transform var(--dur-fast) var(--ease-spring);
       }
-      .card:hover,
-      .card:focus-visible {
+      .card:is(:hover, :focus-visible) {
         border-color: color-mix(in oklch, var(--clr-accent-500) 60%, var(--border-strong));
         transform: translateY(-0.375rem);
         box-shadow:
           inset 0 1px 0 0 color-mix(in oklch, var(--clr-core-white) 25%, transparent),
           var(--shadow-hover);
       }
-      .card:hover::before,
-      .card:focus-visible::before {
+      .card:is(:hover, :focus-visible)::before {
         opacity: 0.08;
       }
-      .card:hover .card-title,
-      .card:focus-visible .card-title {
+      .card:is(:hover, :focus-visible) .card-title {
         color: var(--text-primary);
         border-color: var(--border-strong);
         background: color-mix(in oklch, var(--text-primary) 5%, transparent);
       }
-      .card:hover .spinner-wrapper,
-      .card:focus-visible .spinner-wrapper {
+      .card:is(:hover, :focus-visible) .spinner-wrapper {
         transform: scale(1.08);
       }
-      .card:hover .expand-hint,
-      .card:focus-visible .expand-hint {
+      .card:is(:hover, :focus-visible) .expand-hint {
         opacity: 1;
         transform: translateY(0);
       }
@@ -1306,59 +1301,6 @@
       }
       #lightbox-card.active .braille-loader::after {
         animation-play-state: running;
-      }
-
-      /* Unified Sync Engines (Flawless Iteration) */
-      @keyframes l-sweep-sync {
-        0% {
-          background-position: 200% center;
-          filter: brightness(var(--loader-bright-low));
-        }
-        50% {
-          filter: brightness(var(--loader-bright-high)) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color));
-        }
-        100% {
-          background-position: -200% center;
-          filter: brightness(var(--loader-bright-low));
-        }
-      }
-      @keyframes l-pulse-sync {
-        0%,
-        100% {
-          filter: brightness(var(--loader-bright-low));
-          background-position: 50% center;
-        }
-        50% {
-          filter: brightness(var(--loader-bright-high)) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color));
-          background-position: 50% center;
-        }
-      }
-      @keyframes l-glitch-sync {
-        0%,
-        100% {
-          filter: brightness(var(--loader-bright-low));
-          background-position: 50% center;
-        }
-        20%,
-        80% {
-          filter: brightness(var(--loader-bright-high)) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color));
-          background-position: 50% center;
-        }
-        40%,
-        60% {
-          filter: brightness(var(--loader-bright-low));
-          background-position: 50% center;
-        }
-      }
-      @keyframes l-scan-sync {
-        0% {
-          background-position: 200% center;
-          filter: brightness(var(--loader-bright-low));
-        }
-        100% {
-          background-position: -200% center;
-          filter: brightness(var(--loader-bright-high)) drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color));
-        }
       }
 
       @media (prefers-reduced-motion: reduce) {
