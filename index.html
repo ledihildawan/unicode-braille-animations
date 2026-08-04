@@ -274,6 +274,7 @@
         --bg-surface: light-dark(var(--clr-core-white), var(--clr-neutral-900));
         --text-primary: light-dark(var(--clr-neutral-950), var(--clr-core-white));
         --text-secondary: light-dark(var(--clr-neutral-700), var(--clr-neutral-200));
+        --text-muted: light-dark(oklch(50% 0.01 250), oklch(70% 0.01 250));
         --text-accent: var(--clr-accent-500);
         --text-success: var(--clr-status-success);
 
@@ -298,24 +299,8 @@
         --ambient-secondary: light-dark(oklch(85% 0.1 280 / 0.5), oklch(30% 0.15 280 / 0.3));
         --bg-grid-pattern: color-mix(in oklch, var(--text-primary) 4%, transparent);
 
-        /* Loader Specific Variables */
-        --loader-shimmer-base: light-dark(
-          color-mix(in oklch, var(--clr-core-white) 50%, var(--clr-neutral-950)),
-          color-mix(in oklch, var(--clr-neutral-800) 60%, var(--clr-core-white))
-        );
-        --loader-shimmer-peak: var(--text-primary);
-        --loader-glow-color: light-dark(
-          color-mix(in oklch, var(--clr-neutral-950) 30%, transparent),
-          var(--clr-core-white)
-        );
-        --loader-glow-sm: 0.2rem;
-        --loader-glow-lg: 0.5rem;
-        --loader-bright-low: 0.9;
-        --loader-bright-high: 1.0;
-
         --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-        --ease-explosion: cubic-bezier(0.1, 0.9, 0.2, 1);
         --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
         --dur-fast: 0.2s;
         --dur-base: 0.4s;
@@ -327,10 +312,6 @@
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --loader-glow-sm: 0.25rem;
-          --loader-glow-lg: 0.75rem;
-          --loader-bright-low: 0.7;
-          --loader-bright-high: 1.4;
           --accent-color: #9069df;
         }
       }
@@ -340,20 +321,12 @@
         --clr-accent-500: #3b82f6;
         --border-accent: color-mix(in oklch, var(--clr-accent-500) 40%, transparent);
         --accent-color: #3b63c9;
-        --loader-glow-sm: 0.2rem;
-        --loader-glow-lg: 0.5rem;
-        --loader-bright-low: 0.9;
-        --loader-bright-high: 1.0;
       }
       [data-theme='dark'] {
         color-scheme: dark;
         --clr-accent-500: oklch(65% 0.22 255);
         --border-accent: color-mix(in oklch, var(--clr-accent-500) 40%, transparent);
         --accent-color: #9069df;
-        --loader-glow-sm: 0.25rem;
-        --loader-glow-lg: 0.75rem;
-        --loader-bright-low: 0.7;
-        --loader-bright-high: 1.4;
       }
 
       /* ==========================================================================
@@ -473,7 +446,7 @@
         gap: 0.5rem;
         white-space: nowrap;
       }
-      .navbar-logo svg.logo-icon {
+      .navbar-logo svg.logo-icon-svg {
         display: inline-block;
         vertical-align: middle;
         color: var(--text-primary);
@@ -831,6 +804,22 @@
         position: relative;
         z-index: 2;
         pointer-events: none;
+      }
+      .card-desc {
+        font-size: 0.625rem;
+        color: var(--text-muted);
+        padding: 0 1rem;
+        text-align: center;
+        position: absolute;
+        bottom: 3rem;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        transition: opacity var(--dur-base) ease;
+        pointer-events: none;
+      }
+      .card:is(:hover, :focus-visible) .card-desc {
+        opacity: 1;
       }
       .spinner-wrapper {
         width: 100%;
@@ -1262,49 +1251,22 @@
       }
 
       /* ==========================================================================
-       BRAILLE SPINNER CORE CSS
+       BRAILLE SPINNER CORE CSS (library provides .braille-spinner base styles)
        ========================================================================== */
-      .braille-loader {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        font-variant-numeric: tabular-nums;
-        line-height: normal;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      }
-      .braille-loader::after {
-        display: inline-block;
-        white-space: pre;
-        background: linear-gradient(
-          90deg,
-          var(--loader-shimmer-base) 0%,
-          color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 30%,
-          var(--loader-shimmer-peak) 50%,
-          color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 70%,
-          var(--loader-shimmer-base) 100%
-        );
-        background-size: 200% 100%;
-        color: transparent;
-        -webkit-background-clip: text;
-        background-clip: text;
-        will-change: background-position, filter, opacity;
-        pointer-events: none;
-      }
-
-      .card .braille-loader::after {
+      .card .braille-spinner::after {
         animation-play-state: paused;
       }
-      .card:hover .braille-loader::after,
-      .card:focus-visible .braille-loader::after,
-      .card.is-animating .braille-loader::after {
+      .card:hover .braille-spinner::after,
+      .card:focus-visible .braille-spinner::after,
+      .card.is-animating .braille-spinner::after {
         animation-play-state: running;
       }
-      #lightbox-card.active .braille-loader::after {
+      #lightbox-card.active .braille-spinner::after {
         animation-play-state: running;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .braille-loader::after {
+        .braille-spinner::after {
           background: none;
           color: currentColor;
           animation: none !important;
@@ -1321,7 +1283,7 @@
     <nav class="navbar" aria-label="Main Navigation">
       <div class="navbar-logo">
         <span class="hide-mobile">Unicode&nbsp;</span>Braille
-        <span class="icon" aria-hidden="true"><svg class="logo-icon" width="1.2em" height="1.2em"><use href="assets/logo.svg#logo"></use></svg></span>
+        <span class="logo-icon" aria-hidden="true"><svg class="logo-icon-svg" width="1.2em" height="1.2em"><use href="assets/logo.svg#logo"></use></svg></span>
         <span class="badge">v1.0</span>
       </div>
       <div class="nav-actions">
@@ -1473,9 +1435,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-cascade-title"
+          aria-describedby="spinner-cascade-desc"
         >
           <div class="card-title" id="spinner-cascade-title">Cascade Drop</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-cascade" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-cascade-desc">Dots cascade downward in sequence</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-cascade" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1485,9 +1449,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-wave-title"
+          aria-describedby="spinner-wave-desc"
         >
           <div class="card-title" id="spinner-wave-title">Ripple Wave</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-wave" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-wave-desc">Ripple effect sweeps left to right</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-wave" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1497,9 +1463,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-helix-title"
+          aria-describedby="spinner-helix-desc"
         >
           <div class="card-title" id="spinner-helix-title">Twin Helix</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-helix" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-helix-desc">Twin braille patterns spiral around each other</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-helix" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1509,9 +1477,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-rain-title"
+          aria-describedby="spinner-rain-desc"
         >
           <div class="card-title" id="spinner-rain-title">Matrix Rain</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-rain" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-rain-desc">Dots fall like matrix rain</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-rain" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1521,9 +1491,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-breathe-title"
+          aria-describedby="spinner-breathe-desc"
         >
           <div class="card-title" id="spinner-breathe-title">Breathing Focus</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-breathe" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-breathe-desc">Dots expand and contract smoothly</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-breathe" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1533,9 +1505,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-diagonal-title"
+          aria-describedby="spinner-diagonal-desc"
         >
           <div class="card-title" id="spinner-diagonal-title">Diagonal Wipe</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-diagonal" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-diagonal-desc">Diagonal wipe pattern cycles through</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-diagonal" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1545,9 +1519,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-pulse-title"
+          aria-describedby="spinner-pulse-desc"
         >
           <div class="card-title" id="spinner-pulse-title">Core Pulse</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-pulse" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-pulse-desc">Core element pulses with rhythmic expansion</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-pulse" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1557,9 +1533,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-snake-title"
+          aria-describedby="spinner-snake-desc"
         >
           <div class="card-title" id="spinner-snake-title">Slithering Snake</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-snake" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-snake-desc">Pattern slithers in a winding path</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-snake" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1569,9 +1547,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-glitch-title"
+          aria-describedby="spinner-glitch-desc"
         >
           <div class="card-title" id="spinner-glitch-title">Static Glitch</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-glitch" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-glitch-desc">Static glitch effect with random flicker</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-glitch" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1581,9 +1561,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-columns-title"
+          aria-describedby="spinner-columns-desc"
         >
           <div class="card-title" id="spinner-columns-title">Rising Columns</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-columns" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-columns-desc">Columns rise and reset sequentially</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-columns" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1593,9 +1575,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-scan-title"
+          aria-describedby="spinner-scan-desc"
         >
           <div class="card-title" id="spinner-scan-title">Radar Scan</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-scan" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-scan-desc">Radar sweep rotates continuously</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-scan" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1605,9 +1589,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-sweep-title"
+          aria-describedby="spinner-sweep-desc"
         >
           <div class="card-title" id="spinner-sweep-title">Fill Sweep</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-sweep" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-sweep-desc">Fill sweeps across in a circular motion</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-sweep" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1617,9 +1603,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-orbit-title"
+          aria-describedby="spinner-orbit-desc"
         >
           <div class="card-title" id="spinner-orbit-title">Satellite Orbit</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-orbit" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-orbit-desc">Satellite dots orbit around center</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-orbit" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1629,9 +1617,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-sparkle-title"
+          aria-describedby="spinner-sparkle-desc"
         >
           <div class="card-title" id="spinner-sparkle-title">Stardust Sparkle</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-sparkle" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-sparkle-desc">Stardust particles twinkle randomly</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-sparkle" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
         <div
@@ -1641,9 +1631,11 @@
           role="button"
           tabindex="0"
           aria-labelledby="spinner-basic-title"
+          aria-describedby="spinner-basic-desc"
         >
           <div class="card-title" id="spinner-basic-title">Classic Spinner</div>
-          <div class="spinner-wrapper"><span class="braille-loader spinner-basic" aria-hidden="true"></span></div>
+          <div class="card-desc" id="spinner-basic-desc">Classic rotating braille dot pattern</div>
+          <div class="spinner-wrapper"><span class="braille-spinner spinner-basic" aria-hidden="true"></span></div>
           <div class="expand-hint"><span>View</span></div>
         </div>
       </section>
@@ -1668,7 +1660,7 @@
           </svg>
         </button>
         <div id="lightbox-title"></div>
-        <div id="lightbox-spinner-wrapper" aria-hidden="true"></div>
+        <div id="lightbox-spinner-wrapper"></div>
         <div class="lightbox-actions">
           <button class="action-btn" id="btn-copy-html" aria-label="Copy HTML to clipboard">
             <svg
@@ -1739,7 +1731,7 @@
       <span id="toast-msg">Copied!</span>
     </div>
 
-    <!-- Shared Braille Library (single source of truth for spinners + profiles) -->
+    <!-- Shared Braille Library (single source of truth for spinners + spinner configs) -->
     <script src="assets/braille-library.js"></script>
 
     <!-- Javascript Core -->
@@ -1748,10 +1740,10 @@
         'use strict';
 
         const {
-          PROFILES: LOADER_PROFILES,
-          SPINNER_CSS: cssSnippets,
-          SYNC_ENGINES: lightSyncEngines,
-          BASE_CSS: baseLoaderCSS,
+          SPINNER_CONFIGS,
+          GLOW_ANIMATIONS: glowAnimations,
+          SPINNER_CSS: spinnerCSS,
+          BASE_CSS: baseSpinnerCSS,
         } = window.BrailleLibrary;
 
         // Inject the full library CSS so we have a single source for spinner styling.
@@ -1773,7 +1765,7 @@
           MOBILE_BREAKPOINT: '(max-width: 39.99rem)',
         });
 
-        const THEME_STORAGE_KEY = 'braille-ui-theme';
+        const THEME_STORAGE_KEY = 'braille-spinner-theme';
 
         /* ==========================================================================
          SHOWCASE FRAME THEME BRIDGE (parent → iframe via postMessage)
@@ -1861,7 +1853,7 @@
           audioCtx = null;
         }
 
-        function playUiSound(type) {
+        function playSound(type) {
           if (prefersReducedMotion.matches) return;
           const ctx = ensureAudioContext();
           if (!ctx) return;
@@ -1900,7 +1892,7 @@
         }
 
         function feedback(type) {
-          playUiSound(type);
+          playSound(type);
           triggerHaptic();
         }
 
@@ -2054,13 +2046,7 @@
           btn.addEventListener('click', (e) => {
             notifyInteraction();
             feedback('switch');
-            if (window.matchMedia(CONFIG.MOBILE_BREAKPOINT).matches) {
-              e.preventDefault();
-              const next = (currentThemeIndex + 1) % themes.length;
-              applyTheme(themes[next], btn);
-            } else {
-              applyTheme(btn.getAttribute('data-set-theme'), btn);
-            }
+            applyTheme(btn.getAttribute('data-set-theme'), btn);
           });
         });
 
@@ -2199,11 +2185,11 @@
           lightboxState.currentSnippet = {
             className: snippet,
             name: name,
-            data: { code: cssSnippets[snippet], ...LOADER_PROFILES[snippet] },
+            data: { code: spinnerCSS[snippet], ...SPINNER_CONFIGS[snippet] },
           };
 
           dom.lightboxTitle.textContent = name;
-          dom.lightboxSpinner.innerHTML = `<span class="braille-loader ${snippet}" aria-hidden="true"></span>`;
+          dom.lightboxSpinner.innerHTML = `<span class="braille-spinner ${snippet}" aria-hidden="true"></span>`;
           resetCopyState(dom.btnCopyHtml);
           resetCopyState(dom.btnCopyCss);
 
@@ -2241,7 +2227,7 @@
         dom.btnCopyHtml.addEventListener('click', () => {
           if (!lightboxState.currentSnippet) return;
           feedback('pop');
-          const html = `<span class="braille-loader ${lightboxState.currentSnippet.className}" role="status" aria-label="Loading"></span>`;
+          const html = `<span class="braille-spinner ${lightboxState.currentSnippet.className}" role="status" aria-label="Loading"></span>`;
           copyToClipboard(html, 'HTML Copied!', dom.btnCopyHtml);
           resetCopyState(dom.btnCopyCss);
         });
@@ -2249,10 +2235,10 @@
         dom.btnCopyCss.addEventListener('click', () => {
           if (!lightboxState.currentSnippet) return;
           feedback('pop');
-          const sync = lightboxState.currentSnippet.data.sync
-            ? lightSyncEngines[lightboxState.currentSnippet.data.sync]
+          const glowCSS = lightboxState.currentSnippet.data.sync
+            ? glowAnimations[lightboxState.currentSnippet.data.sync]
             : '';
-          const code = `/* === ${lightboxState.currentSnippet.name} === */\n\n${baseLoaderCSS}\n\n${sync ? sync + '\n\n' : ''}/* Spinner Animation */\n${lightboxState.currentSnippet.data.code}`;
+          const code = `/* === ${lightboxState.currentSnippet.name} === */\n\n${baseSpinnerCSS}\n\n${glowCSS ? glowCSS + '\n\n' : ''}/* Spinner Animation */\n${lightboxState.currentSnippet.data.code}`;
           copyToClipboard(code, 'CSS Copied!', dom.btnCopyCss);
           resetCopyState(dom.btnCopyHtml);
         });

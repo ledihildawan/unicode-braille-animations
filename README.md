@@ -21,27 +21,27 @@ Add these design tokens to your `:root` or global stylesheet to control the atmo
 
 ```css
 :root {
-  --loader-shimmer-base: #3f3f46;
-  --loader-shimmer-peak: #ffffff;
-  --loader-glow-lg: 0.625rem;
-  --loader-glow-sm: 0.125rem;
-  --loader-glow-color: #ffffff;
+  --spinner-shimmer-base: #3f3f46;
+  --spinner-shimmer-peak: #ffffff;
+  --spinner-glow-lg: 0.625rem;
+  --spinner-glow-sm: 0.125rem;
+  --spinner-glow-color: #ffffff;
 }
 
-.braille-loader {
+.braille-spinner {
   /* Ensuring perfect grid alignment for unicode characters */
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-.braille-loader::after {
+.braille-spinner::after {
   display: inline-block;
   white-space: pre;
   background: linear-gradient(90deg, 
-    var(--loader-shimmer-base) 0%, 
-    color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 30%, 
-    var(--loader-shimmer-peak) 50%, 
-    color-mix(in oklch, var(--loader-shimmer-base) 80%, var(--loader-shimmer-peak)) 70%, 
-    var(--loader-shimmer-base) 100%);
+    var(--spinner-shimmer-base) 0%, 
+    color-mix(in oklch, var(--spinner-shimmer-base) 80%, var(--spinner-shimmer-peak)) 30%, 
+    var(--spinner-shimmer-peak) 50%, 
+    color-mix(in oklch, var(--spinner-shimmer-base) 80%, var(--spinner-shimmer-peak)) 70%, 
+    var(--spinner-shimmer-base) 100%);
   background-size: 200% auto;
   color: transparent;
   -webkit-background-clip: text;
@@ -56,33 +56,33 @@ To use the "Core Pulse" animation, copy the following keyframes and class:
 
 ```css
 /* Physical Bloom Animation Engine */
-@keyframes l-pls-sync { 
-  0%, 50%, 100% { opacity: 0.3; filter: brightness(0.5); background-position: 200% center; } 
-  18% { 
-    opacity: 1; 
-    filter: brightness(1.8) 
-            drop-shadow(0 0 var(--loader-glow-sm) var(--loader-glow-color)) 
-            drop-shadow(0 0 calc(var(--loader-glow-lg) * 2) color-mix(in oklch, var(--loader-glow-color) 60%, transparent)); 
-    background-position: 50% center; 
-  } 
-  34% { background-position: -100% center; } 
+@keyframes spinner-glow-pulse {
+  0%, 50%, 100% { opacity: 0.3; filter: brightness(0.5); background-position: 200% center; }
+  18% {
+    opacity: 1;
+    filter: brightness(1.8)
+            drop-shadow(0 0 var(--spinner-glow-sm) var(--spinner-glow-color))
+            drop-shadow(0 0 calc(var(--spinner-glow-lg) * 2) color-mix(in oklch, var(--spinner-glow-color) 60%, transparent));
+    background-position: 50% center;
+  }
+  34% { background-position: -100% center; }
 }
 
 /* Unicode Transition Engine */
-@keyframes sp-pls { 
-  0%, 100% { content: "⠀⠶⠀"; } 
-  10% { content: "⠰⣿⠆"; } 
-  18% { content: "⢾⣿⡷"; } 
-  26% { content: "⢾⣉⡷"; } 
-  34% { content: "⣏⣉⣹"; } 
-  42% { content: "⡁⠀⢈"; } 
-  50% { content: "⠀⠶⠀"; } 
+@keyframes spinner-pulse {
+  0%, 100% { content: "⠀⠶⠀"; }
+  10% { content: "⠰⣿⠆"; }
+  18% { content: "⢾⣿⡷"; }
+  26% { content: "⢾⣉⡷"; }
+  34% { content: "⣏⣉⣹"; }
+  42% { content: "⡁⠀⢈"; }
+  50% { content: "⠀⠶⠀"; }
 }
 
-.spinner-pulse::after { 
-  content: "⠀⠶⠀"; 
-  animation: sp-pls 1.4s step-end infinite, 
-             l-pls-sync 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) infinite; 
+.spinner-pulse::after {
+  content: "⠀⠶⠀";
+  animation: spinner-pulse 1.4s step-end infinite,
+             spinner-glow-pulse 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) infinite;
 }
 ```
 
@@ -90,7 +90,7 @@ To use the "Core Pulse" animation, copy the following keyframes and class:
 Simply call the class in your HTML:
 
 ```html
-<span class="braille-loader spinner-pulse" role="status" aria-label="Loading"></span>
+<span class="braille-spinner spinner-pulse" role="status" aria-label="Loading"></span>
 ```
 
 ## 🎨 Available Animations

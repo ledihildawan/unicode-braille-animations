@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Braille UI ⠿ | Premium Scenarios</title>
+  <title>Braille Spinners ⠿ | Premium Scenarios</title>
   <link rel="icon" href="favicon-light.svg" type="image/svg+xml" id="app-favicon" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
@@ -54,39 +54,39 @@
       --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
       --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* Snappy spring for clicks */
 
-      /* Loader Lib Core */
-      --loader-shimmer-base: light-dark(oklch(56% 0.005 250), oklch(55% 0.008 250));
-      --loader-shimmer-peak: light-dark(oklch(15% 0.01 250), oklch(100% 0 0));
-      --loader-glow-color: light-dark(oklch(15% 0.01 250 / 0.3), oklch(100% 0 0));
-      --loader-glow-sm: 0.2rem;
-      --loader-glow-lg: 0.5rem;
-      --loader-bright-low: 0.9;
-      --loader-bright-high: 1.0;
+      /* Braille Spinner Core */
+      --spinner-shimmer-base: light-dark(oklch(56% 0.005 250), oklch(55% 0.008 250));
+      --spinner-shimmer-peak: light-dark(oklch(15% 0.01 250), oklch(100% 0 0));
+      --spinner-glow-color: light-dark(oklch(15% 0.01 250 / 0.3), oklch(100% 0 0));
+      --spinner-glow-sm: 0.2rem;
+      --spinner-glow-lg: 0.5rem;
+      --spinner-bright-low: 0.9;
+      --spinner-bright-high: 1.0;
       scrollbar-width: thin;
       scrollbar-color: var(--border-strong) var(--bg-base);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --loader-glow-sm: 0.25rem;
-        --loader-glow-lg: 0.75rem;
-        --loader-bright-low: 0.7;
-        --loader-bright-high: 1.4;
+        --spinner-glow-sm: 0.25rem;
+        --spinner-glow-lg: 0.75rem;
+        --spinner-bright-low: 0.7;
+        --spinner-bright-high: 1.4;
       }
     }
 
-    [data-theme='light'] :root {
-      --loader-glow-sm: 0.2rem;
-      --loader-glow-lg: 0.5rem;
-      --loader-bright-low: 0.9;
-      --loader-bright-high: 1.0;
+    [data-theme='light'] {
+      --spinner-glow-sm: 0.2rem;
+      --spinner-glow-lg: 0.5rem;
+      --spinner-bright-low: 0.9;
+      --spinner-bright-high: 1.0;
     }
 
-    [data-theme='dark'] :root {
-      --loader-glow-sm: 0.25rem;
-      --loader-glow-lg: 0.75rem;
-      --loader-bright-low: 0.7;
-      --loader-bright-high: 1.4;
+    [data-theme='dark'] {
+      --spinner-glow-sm: 0.25rem;
+      --spinner-glow-lg: 0.75rem;
+      --spinner-bright-low: 0.7;
+      --spinner-bright-high: 1.4;
     }
 
     html::-webkit-scrollbar {
@@ -276,7 +276,7 @@
       gap: 0.5rem;
     }
 
-    .btn-content, .btn-loader, .btn-success {
+    .btn-content, .btn-spinner, .btn-success {
       grid-area: 1 / 1;
       display: flex;
       align-items: center;
@@ -285,13 +285,13 @@
       transition: opacity 0.25s var(--ease-smooth);
     }
 
-    .btn-loader { opacity: 0; }
+    .btn-spinner { opacity: 0; }
     .btn-success { opacity: 0; color: var(--status-success); }
     
     /* State: Loading */
     .btn.is-loading { pointer-events: none; }
     .btn.is-loading .btn-content { opacity: 0; }
-    .btn.is-loading .btn-loader { opacity: 1; }
+    .btn.is-loading .btn-spinner { opacity: 1; }
 
     /* State: Success */
     .btn.is-success { 
@@ -300,7 +300,7 @@
       border-color: color-mix(in oklch, var(--status-success) 30%, transparent); 
       box-shadow: none;
     }
-    .btn.is-success .btn-content, .btn.is-success .btn-loader { opacity: 0; }
+    .btn.is-success .btn-content, .btn.is-success .btn-spinner { opacity: 0; }
     .btn.is-success .btn-success { opacity: 1; }
 
     /* --- USE CASE 2: DEPLOYMENT PIPELINE (ANTI-CLS) --- */
@@ -334,7 +334,7 @@
       background: var(--status-active-bg);
       border-color: var(--border-subtle);
     }
-    .status-item.active .braille-loader { color: var(--accent-main); text-shadow: 0 0 8px var(--accent-glow); }
+    .status-item.active .braille-spinner { color: var(--accent-main); text-shadow: 0 0 8px var(--accent-glow); }
     
     .status-item.done { color: var(--text-secondary); }
     .status-item.done .status-icon { color: var(--status-success); }
@@ -342,8 +342,8 @@
     /* --- USE CASE 3: NATIVE TERMINAL (ANTI-CLS) --- */
     .terminal {
       color-scheme: light dark;
-      background: light-dark(#fafafa, #000);
-      border: 1px solid light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.12));
+      background: light-dark(oklch(98% 0.01 250), oklch(0% 0 0));
+      border: 1px solid light-dark(oklch(0% 0 0 / 0.12), oklch(100% 0 0 / 0.12));
       border-radius: 0.5rem;
       padding: 1.25rem;
       font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -381,7 +381,7 @@
     .term-line.active { color: var(--text-primary); }
     .term-line .path { color: var(--accent-main); }
 
-    /* --- BRAILLE LIBRARY --- loaded from braille-library.js (showcase subset only) -->
+    /* --- BRAILLE LIBRARY --- styles injected via JavaScript from braille-library.js */
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -392,7 +392,7 @@
       }
       .bento-card { opacity: 1; animation: none; }
       .term-cursor { animation: none; }
-      .braille-loader::after {
+      .braille-spinner::after {
         background: none;
         color: currentColor;
         animation: none !important;
@@ -423,7 +423,7 @@
             <div class="btn-spacer" aria-hidden="true">Deploy to Production</div>
             
             <div class="btn-content">Deploy to Production</div>
-            <div class="btn-loader"><span class="braille-loader spinner-pulse" aria-hidden="true"></span></div>
+            <div class="btn-spinner"><span class="braille-spinner spinner-pulse" aria-hidden="true"></span></div>
             <div class="btn-success">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Deployed
             </div>
@@ -439,7 +439,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg>
               Run Analysis
             </div>
-            <div class="btn-loader"><span class="braille-loader spinner-basic" aria-hidden="true"></span> Analyzing...</div>
+            <div class="btn-spinner"><span class="braille-spinner spinner-basic" aria-hidden="true"></span> Analyzing...</div>
             <div class="btn-success">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Complete
             </div>
@@ -458,7 +458,7 @@
             <span>Validating config</span>
           </div>
           <div class="status-item active">
-            <div class="status-icon"><span class="braille-loader spinner-basic" aria-hidden="true"></span></div>
+            <div class="status-icon"><span class="braille-spinner spinner-basic" aria-hidden="true"></span></div>
             <span>Building static assets</span>
           </div>
           <div class="status-item">
@@ -486,11 +486,11 @@
             <div>Environments: .env.production</div>
           </div>
           <div class="term-line muted">
-            <div class="term-icon"><span class="braille-loader spinner-scan" aria-hidden="true"></span></div>
+            <div class="term-icon"><span class="braille-spinner spinner-scan" aria-hidden="true"></span></div>
             <div>Compiling client components (124/310)</div>
           </div>
           <div class="term-line active">
-            <div class="term-icon"><span class="braille-loader spinner-cascade" aria-hidden="true"></span></div>
+            <div class="term-icon"><span class="braille-spinner spinner-cascade" aria-hidden="true"></span></div>
             <div>Creating an optimized production build...<span class="term-cursor"></span></div>
           </div>
         </div>
@@ -521,8 +521,8 @@
         PIPELINE_START_DELAY_MS: 1000,
       });
 
-      const BUTTON_LOADER_MARKUP =
-        '<span class="braille-loader spinner-basic" aria-hidden="true"></span>';
+      const BUTTON_SPINNER_MARKUP =
+        '<span class="braille-spinner spinner-basic" aria-hidden="true"></span>';
 
       const timers = new Set();
       const abortController = new AbortController();
@@ -628,7 +628,7 @@
           }
           items[activeIndex].classList.remove('active');
           items[activeIndex].classList.add('done');
-          items[activeIndex].querySelector('.status-icon').innerHTML = '✓';
+          items[activeIndex].querySelector('.status-icon').textContent = '✓';
           activeIndex++;
 
           if (activeIndex >= items.length) {
@@ -637,9 +637,9 @@
                 item.className = 'status-item';
                 if (index === 0) {
                   item.classList.add('active');
-                  item.querySelector('.status-icon').innerHTML = BUTTON_LOADER_MARKUP;
+                  item.querySelector('.status-icon').innerHTML = BUTTON_SPINNER_MARKUP;
                 } else {
-                  item.querySelector('.status-icon').innerHTML = '-';
+                  item.querySelector('.status-icon').textContent = '-';
                 }
               });
               activeIndex = 0;
@@ -650,7 +650,7 @@
 
           items[activeIndex].classList.remove('done');
           items[activeIndex].classList.add('active');
-          items[activeIndex].querySelector('.status-icon').innerHTML = BUTTON_LOADER_MARKUP;
+          items[activeIndex].querySelector('.status-icon').innerHTML = BUTTON_SPINNER_MARKUP;
           pipelineTimeout = trackTimeout(step, TIMING.PIPELINE_STEP_MS);
         }
 
