@@ -96,11 +96,19 @@ Simply call the class in your HTML:
 ## 🎨 Available Animations
 Visit our live demo for full snippets of:
 - **Cascade Drop** - Fluid falling particles.
+- **Ripple Wave** - Gentle wave motion.
 - **Twin Helix** - Dynamic 3D-like DNA structure.
 - **Matrix Rain** - Cyberpunk digital rain effect.
 - **Breathing Focus** - Smooth expansion & contraction.
+- **Diagonal Wipe** - Diagonal sweep effect.
+- **Core Pulse** - Central pulsing glow.
 - **Slithering Snake** - Classic nostalgic snake path.
+- **Static Glitch** - Digital glitch effect.
 - **Rising Columns** - Equalizer-style vertical growth.
+- **Radar Scan** - Sweeping radar motion.
+- **Fill Sweep** - Filling sweep animation.
+- **Satellite Orbit** - Orbiting satellite.
+- **Stardust Sparkle** - Sparkling particles.
 - **Classic Spinner** - The reliable CLI-style loader.
 
 ## 👨‍💻 Author
