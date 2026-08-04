@@ -55,7 +55,7 @@
     <meta name="theme-color" content="#0d0f12" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
     <link rel="canonical" href="https://ledihildawan.github.io/unicode-braille-animations/" />
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-light.svg" type="image/svg+xml" id="app-favicon" />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -477,9 +477,9 @@
         gap: 0.5rem;
         white-space: nowrap;
       }
-      .navbar-logo span.icon {
-        font-size: 1.3em;
-        line-height: 1;
+      .navbar-logo svg.logo-icon {
+        display: inline-block;
+        vertical-align: middle;
         color: var(--text-primary);
       }
       .badge {
@@ -599,6 +599,10 @@
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+      }
+      .hero-text .logo-hero {
+        display: inline-block;
+        vertical-align: middle;
       }
       .hero-text p {
         font-size: clamp(1.0625rem, 2vw, 1.25rem);
@@ -1098,6 +1102,39 @@
       .footer .footer-copyright {
         font-size: 0.875rem;
         color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      .footer .credit {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--text-primary);
+        font-weight: 600;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .footer .credit:hover {
+        opacity: 0.7;
+      }
+      .footer .credit-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: block;
+      }
+      .footer .credit-by {
+        font-size: 0.75rem;
+        font-weight: 400;
+        opacity: 0.7;
+      }
+      .footer .credit-name {
+        font-size: 0.875rem;
+      }
+      .footer .footer-separator {
+        color: var(--text-muted);
       }
       .footer a {
         color: var(--text-primary);
@@ -1346,7 +1383,7 @@
     <nav class="navbar" aria-label="Main Navigation">
       <div class="navbar-logo">
         <span class="hide-mobile">Unicode&nbsp;</span>Braille
-        <span class="icon" aria-hidden="true">⠿</span>
+        <span class="icon" aria-hidden="true"><svg class="logo-icon" width="1.2em" height="1.2em"><use href="assets/logo.svg#logo"></use></svg></span>
         <span class="badge">v1.0</span>
       </div>
       <div class="nav-actions">
@@ -1454,7 +1491,7 @@
     <main class="main-content">
       <section class="hero-section reveal-on-scroll">
         <div class="hero-text">
-          <h1>Pure CSS Braille Spinners <span aria-hidden="true">⠿</span></h1>
+          <h1>Pure CSS Braille Spinners <span aria-hidden="true" style="color: var(--text-primary)"><svg class="logo-hero" width="1em" height="1em"><use href="assets/logo.svg#logo"></use></svg></span></h1>
           <p>
             Zero dependencies. Infinitely scalable. A meticulously crafted collection of ultra-lightweight loading
             indicators built entirely with Unicode Braille characters and modern CSS.
@@ -1736,14 +1773,13 @@
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-copyright">
-          &copy; 2026
-          <a
-            href="https://www.instagram.com/ledihildawan"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit Ledi Hildawan's Instagram"
-            >Ledi Hildawan</a
-          >. Released under the MIT License.
+          <a href="https://github.com/ledihildawan" target="_blank" rel="noopener noreferrer" class="credit">
+            <span class="credit-by">by</span>
+            <img class="credit-avatar" src="https://github.com/ledihildawan.png" alt="avatar" width="24" height="24" loading="lazy" />
+            <span class="credit-name">ledihildawan</span>
+          </a>
+          <span class="footer-separator">&middot;</span>
+          MIT License.
         </div>
       </div>
     </footer>
@@ -2036,6 +2072,14 @@
         /* ==========================================================================
          THEME MANAGEMENT
          ========================================================================== */
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+        const faviconEl = document.getElementById('app-favicon');
+        function syncFavicon(theme) {
+          if (!faviconEl) return;
+          const isDark = theme === 'dark' || (theme === 'system' && systemDark.matches);
+          faviconEl.href = isDark ? 'assets/favicon-dark.svg' : 'assets/favicon-light.svg';
+        }
+
         function applyTheme(theme, origin) {
           const canTransition = origin && document.startViewTransition && !prefersReducedMotion.matches;
           const commitTheme = () => {
@@ -2058,6 +2102,7 @@
             dom.themeToggle.setAttribute('data-active', theme);
             currentThemeIndex = themes.indexOf(theme);
             showcaseThemeBridge.send(theme);
+            syncFavicon(theme);
           };
 
           if (!canTransition) {
@@ -2107,14 +2152,13 @@
         });
 
         if (window.matchMedia) {
-          const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
           const reapplySystemTheme = () => {
             if (themes[currentThemeIndex] === 'system') applyTheme('system');
           };
-          if (prefersColorScheme.addEventListener) {
-            prefersColorScheme.addEventListener('change', reapplySystemTheme);
-          } else if (prefersColorScheme.addListener) {
-            prefersColorScheme.addListener(reapplySystemTheme);
+          if (systemDark.addEventListener) {
+            systemDark.addEventListener('change', reapplySystemTheme);
+          } else if (systemDark.addListener) {
+            systemDark.addListener(reapplySystemTheme);
           }
         }
 

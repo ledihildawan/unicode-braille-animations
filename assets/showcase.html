@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Braille UI ⠿ | Premium Scenarios</title>
+  <link rel="icon" href="favicon-light.svg" type="image/svg+xml" id="app-favicon" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <style>
@@ -663,11 +664,17 @@
 
       // Theme bridge: follow parent theme (index.html) via postMessage; fallback to system.
       const themeRoot = document.documentElement;
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+      const faviconEl = document.getElementById('app-favicon');
       function applyShowcaseTheme(theme) {
         if (theme === 'light' || theme === 'dark') {
           themeRoot.setAttribute('data-theme', theme);
         } else {
           themeRoot.removeAttribute('data-theme');
+        }
+        if (faviconEl) {
+          const isDark = theme === 'dark' || (theme === 'system' && systemDark.matches);
+          faviconEl.href = isDark ? 'favicon-dark.svg' : 'favicon-light.svg';
         }
       }
       window.addEventListener('message', (e) => {

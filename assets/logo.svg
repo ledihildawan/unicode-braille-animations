@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="logo" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" fill="currentColor" opacity="0.06"/>
+    <g fill="currentColor">
+      <circle cx="22" cy="10" r="6.5"/>
+      <circle cx="42" cy="10" r="6.5"/>
+      <circle cx="22" cy="24" r="6.5"/>
+      <circle cx="42" cy="24" r="6.5"/>
+      <circle cx="22" cy="38" r="6.5"/>
+      <circle cx="42" cy="38" r="6.5"/>
+      <circle cx="22" cy="52" r="6.5"/>
+      <circle cx="42" cy="52" r="6.5" opacity="0.5"/>
+    </g>
+  </symbol>
+</svg>
