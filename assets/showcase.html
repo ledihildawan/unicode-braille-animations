@@ -73,6 +73,20 @@
       }
     }
 
+    [data-theme='light'] :root {
+      --loader-glow-sm: 0.2rem;
+      --loader-glow-lg: 0.5rem;
+      --loader-bright-low: 0.9;
+      --loader-bright-high: 1.0;
+    }
+
+    [data-theme='dark'] :root {
+      --loader-glow-sm: 0.25rem;
+      --loader-glow-lg: 0.75rem;
+      --loader-bright-low: 0.7;
+      --loader-bright-high: 1.4;
+    }
+
     @supports (color: oklch(50% 0 0)) {
       :root {
         --bg-base: light-dark(oklch(97% 0.005 250), oklch(12% 0.01 250));
@@ -323,9 +337,9 @@
 
     /* --- USE CASE 3: NATIVE TERMINAL (ANTI-CLS) --- */
     .terminal {
-      color-scheme: dark;
-      background: #000;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      color-scheme: light dark;
+      background: light-dark(#fafafa, #000);
+      border: 1px solid light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.12));
       border-radius: 0.5rem;
       padding: 1.25rem;
       font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -335,10 +349,6 @@
       flex-direction: column;
       gap: 0.5rem;
       position: relative;
-      --loader-glow-sm: 0.25rem;
-      --loader-glow-lg: 0.75rem;
-      --loader-bright-low: 0.7;
-      --loader-bright-high: 1.4;
     }
     
     /* Blinking Terminal Cursor */
@@ -667,14 +677,22 @@
       const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
       const faviconEl = document.getElementById('app-favicon');
       function applyShowcaseTheme(theme) {
-        if (theme === 'light' || theme === 'dark') {
-          themeRoot.setAttribute('data-theme', theme);
+        const commit = () => {
+          if (theme === 'light' || theme === 'dark') {
+            themeRoot.setAttribute('data-theme', theme);
+          } else {
+            themeRoot.removeAttribute('data-theme');
+          }
+          if (faviconEl) {
+            const isDark = theme === 'dark' || (theme === 'system' && systemDark.matches);
+            faviconEl.href = isDark ? 'favicon-dark.svg' : 'favicon-light.svg';
+          }
+        };
+
+        if (document.startViewTransition && !prefersReducedMotion.matches) {
+          document.startViewTransition(commit);
         } else {
-          themeRoot.removeAttribute('data-theme');
-        }
-        if (faviconEl) {
-          const isDark = theme === 'dark' || (theme === 'system' && systemDark.matches);
-          faviconEl.href = isDark ? 'favicon-dark.svg' : 'favicon-light.svg';
+          commit();
         }
       }
       window.addEventListener('message', (e) => {

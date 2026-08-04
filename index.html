@@ -347,6 +347,8 @@
 
       [data-theme='light'] {
         color-scheme: light;
+        --clr-accent-500: #3b82f6;
+        --border-accent: color-mix(in oklch, var(--clr-accent-500) 40%, transparent);
         --loader-glow-sm: 0.2rem;
         --loader-glow-lg: 0.5rem;
         --loader-bright-low: 0.9;
@@ -354,6 +356,8 @@
       }
       [data-theme='dark'] {
         color-scheme: dark;
+        --clr-accent-500: oklch(65% 0.22 255);
+        --border-accent: color-mix(in oklch, var(--clr-accent-500) 40%, transparent);
         --loader-glow-sm: 0.25rem;
         --loader-glow-lg: 0.75rem;
         --loader-bright-low: 0.7;
