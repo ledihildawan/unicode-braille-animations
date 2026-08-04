@@ -737,11 +737,10 @@
           border-color var(--dur-base) var(--ease-smooth),
           box-shadow 0.5s var(--ease-spring),
           background-color var(--dur-base);
-        outline: none;
       }
       .card:hover,
       .card:focus-visible {
-        will-change: transform, border-color, box-shadow;
+        will-change: transform;
       }
       .card::before {
         content: '';
@@ -806,7 +805,7 @@
         pointer-events: none;
       }
       .card-desc {
-        font-size: 0.625rem;
+        font-size: 0.75rem;
         color: var(--text-muted);
         padding: 0 1rem;
         text-align: center;
@@ -1290,7 +1289,7 @@
       <div class="navbar-logo">
         <span class="hide-mobile">Unicode&nbsp;</span>Braille
         <span class="logo-icon" aria-hidden="true"><svg class="logo-icon-svg" width="1.2em" height="1.2em"><use href="assets/logo.svg#logo"></use></svg></span>
-        <span class="badge">v1.0</span>
+        <span class="badge" aria-hidden="true">v1.0</span>
       </div>
       <div class="nav-actions">
         <div class="theme-toggle" data-active="system" role="radiogroup" aria-label="Theme preference" tabindex="0">
