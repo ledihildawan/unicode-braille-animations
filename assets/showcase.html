@@ -454,15 +454,15 @@
         </div>
         <div class="status-list" id="deploy-pipeline" aria-live="polite">
           <div class="status-item done">
-            <div class="status-icon">✓</div>
+            <div class="status-icon" aria-label="Complete">✓</div>
             <span>Validating config</span>
           </div>
           <div class="status-item active">
-            <div class="status-icon"><span class="braille-spinner spinner-basic" aria-hidden="true"></span></div>
+            <div class="status-icon" aria-label="In progress"><span class="braille-spinner spinner-basic" aria-hidden="true"></span></div>
             <span>Building static assets</span>
           </div>
           <div class="status-item">
-            <div class="status-icon">-</div>
+            <div class="status-icon" aria-label="Pending">-</div>
             <span>Assigning domains</span>
           </div>
         </div>
@@ -628,7 +628,9 @@
           }
           items[activeIndex].classList.remove('active');
           items[activeIndex].classList.add('done');
-          items[activeIndex].querySelector('.status-icon').textContent = '✓';
+          const doneIcon = items[activeIndex].querySelector('.status-icon');
+          doneIcon.textContent = '✓';
+          doneIcon.setAttribute('aria-label', 'Complete');
           activeIndex++;
 
           if (activeIndex >= items.length) {
@@ -637,9 +639,13 @@
                 item.className = 'status-item';
                 if (index === 0) {
                   item.classList.add('active');
-                  item.querySelector('.status-icon').innerHTML = BUTTON_SPINNER_MARKUP;
+                  const firstIcon = item.querySelector('.status-icon');
+                  firstIcon.innerHTML = BUTTON_SPINNER_MARKUP;
+                  firstIcon.setAttribute('aria-label', 'In progress');
                 } else {
-                  item.querySelector('.status-icon').textContent = '-';
+                  const pendingIcon = item.querySelector('.status-icon');
+                  pendingIcon.textContent = '-';
+                  pendingIcon.setAttribute('aria-label', 'Pending');
                 }
               });
               activeIndex = 0;
@@ -650,7 +656,9 @@
 
           items[activeIndex].classList.remove('done');
           items[activeIndex].classList.add('active');
-          items[activeIndex].querySelector('.status-icon').innerHTML = BUTTON_SPINNER_MARKUP;
+          const activeIcon = items[activeIndex].querySelector('.status-icon');
+          activeIcon.innerHTML = BUTTON_SPINNER_MARKUP;
+          activeIcon.setAttribute('aria-label', 'In progress');
           pipelineTimeout = trackTimeout(step, TIMING.PIPELINE_STEP_MS);
         }
 
