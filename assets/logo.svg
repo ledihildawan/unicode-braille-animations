@@ -9,7 +9,7 @@
       <circle cx="22" cy="38" r="6.5"/>
       <circle cx="42" cy="38" r="6.5"/>
       <circle cx="22" cy="52" r="6.5"/>
-      <circle cx="42" cy="52" r="6.5" opacity="0.5"/>
     </g>
+    <circle cx="42" cy="52" r="6.5" fill="var(--accent-color, #3b63c9)"/>
   </symbol>
 </svg>

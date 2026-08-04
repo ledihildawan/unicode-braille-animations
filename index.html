@@ -133,6 +133,12 @@
         background: var(--text-secondary);
       }
 
+      /* Firefox - new syntax */
+      html {
+        scrollbar-width: thin;
+        scrollbar-color: var(--border-strong) var(--bg-canvas);
+      }
+
       body {
         min-height: 100vh;
         line-height: 1.6;
@@ -250,17 +256,18 @@
         --radius-lg: 2rem;
         --radius-full: 9999px;
 
-        --clr-core-white: #ffffff;
-        --clr-core-black: #000000;
-        --clr-neutral-50: #fafbfc;
-        --clr-neutral-100: #f1f3f5;
-        --clr-neutral-200: #e6e8eb;
-        --clr-neutral-700: #5a6470;
-        --clr-neutral-800: #383e47;
-        --clr-neutral-900: #23272e;
-        --clr-neutral-950: #16191e;
-        --clr-accent-500: #3b82f6;
-        --clr-status-success: #34d399;
+        --clr-core-white: oklch(100% 0 0);
+        --clr-core-black: oklch(0% 0 0);
+        --clr-neutral-50: oklch(98.5% 0.002 250);
+        --clr-neutral-100: oklch(96% 0.005 250);
+        --clr-neutral-200: oklch(90% 0.005 250);
+        --clr-neutral-700: oklch(35% 0.01 250);
+        --clr-neutral-800: oklch(25% 0.01 250);
+        --clr-neutral-900: oklch(17% 0.01 250);
+        --clr-neutral-950: oklch(13% 0.01 250);
+        --clr-accent-500: oklch(65% 0.22 255);
+        --clr-status-success: oklch(70% 0.16 150);
+        --accent-color: #3b63c9;
 
         color-scheme: light dark;
         --bg-canvas: light-dark(var(--clr-neutral-50), var(--clr-neutral-950));
@@ -324,24 +331,7 @@
           --loader-glow-lg: 0.75rem;
           --loader-bright-low: 0.7;
           --loader-bright-high: 1.4;
-        }
-      }
-
-      @supports (color: oklch(50% 0 0)) {
-        :root {
-          --clr-core-white: oklch(100% 0 0);
-          --clr-core-black: oklch(0% 0 0);
-          --clr-neutral-50: oklch(98.5% 0.002 250);
-          --clr-neutral-100: oklch(96% 0.005 250);
-          --clr-neutral-200: oklch(90% 0.005 250);
-          --clr-neutral-700: oklch(35% 0.01 250);
-          --clr-neutral-800: oklch(25% 0.01 250);
-          --clr-neutral-900: oklch(17% 0.01 250);
-          --clr-neutral-950: oklch(13% 0.01 250);
-          --clr-accent-500: oklch(65% 0.22 255);
-          --clr-status-success: oklch(70% 0.16 150);
-          --ambient-primary: light-dark(oklch(85% 0.1 240 / 0.5), oklch(35% 0.15 255 / 0.3));
-          --ambient-secondary: light-dark(oklch(85% 0.1 280 / 0.5), oklch(30% 0.15 280 / 0.3));
+          --accent-color: #9069df;
         }
       }
 
@@ -349,6 +339,7 @@
         color-scheme: light;
         --clr-accent-500: #3b82f6;
         --border-accent: color-mix(in oklch, var(--clr-accent-500) 40%, transparent);
+        --accent-color: #3b63c9;
         --loader-glow-sm: 0.2rem;
         --loader-glow-lg: 0.5rem;
         --loader-bright-low: 0.9;
@@ -358,6 +349,7 @@
         color-scheme: dark;
         --clr-accent-500: oklch(65% 0.22 255);
         --border-accent: color-mix(in oklch, var(--clr-accent-500) 40%, transparent);
+        --accent-color: #9069df;
         --loader-glow-sm: 0.25rem;
         --loader-glow-lg: 0.75rem;
         --loader-bright-low: 0.7;

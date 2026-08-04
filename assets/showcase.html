@@ -15,16 +15,16 @@
       color-scheme: light dark;
 
       /* Theme-aware UI Colors */
-      --bg-base: light-dark(#f4f5f7, #14171c);
-      --bg-surface: light-dark(#ffffff, #1a1e24);
-      --text-primary: light-dark(#1c2128, #fafafa);
-      --text-secondary: light-dark(#464d56, #adb1b8);
-      --text-muted: light-dark(#7b828b, #7c8189);
+      --bg-base: light-dark(oklch(97% 0.005 250), oklch(12% 0.01 250));
+      --bg-surface: light-dark(oklch(99.5% 0.002 250), oklch(15% 0.01 250));
+      --text-primary: light-dark(oklch(18% 0.01 250), oklch(98% 0 0));
+      --text-secondary: light-dark(oklch(42% 0.01 250), oklch(70% 0.01 250));
+      --text-muted: light-dark(oklch(58% 0.01 250), oklch(50% 0.01 250));
 
       /* Vivid Accents */
-      --accent-main: light-dark(#3b63c9, #8caaf0);
-      --accent-glow: light-dark(rgba(59, 99, 201, 0.16), rgba(108, 145, 240, 0.15));
-      --status-success: light-dark(#1c9d62, #6fe0a8);
+      --accent-main: light-dark(oklch(52% 0.16 255), oklch(70% 0.15 250));
+      --accent-glow: light-dark(oklch(60% 0.25 260 / 0.18), oklch(60% 0.25 260 / 0.15));
+      --status-success: light-dark(oklch(58% 0.17 155), oklch(75% 0.18 150));
 
       /* Borders & Shadows */
       --border-subtle: light-dark(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.06));
@@ -62,6 +62,8 @@
       --loader-glow-lg: 0.5rem;
       --loader-bright-low: 0.9;
       --loader-bright-high: 1.0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-strong) var(--bg-base);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -87,17 +89,19 @@
       --loader-bright-high: 1.4;
     }
 
-    @supports (color: oklch(50% 0 0)) {
-      :root {
-        --bg-base: light-dark(oklch(97% 0.005 250), oklch(12% 0.01 250));
-        --bg-surface: light-dark(oklch(99.5% 0.002 250), oklch(15% 0.01 250));
-        --text-primary: light-dark(oklch(18% 0.01 250), oklch(98% 0 0));
-        --text-secondary: light-dark(oklch(42% 0.01 250), oklch(70% 0.01 250));
-        --text-muted: light-dark(oklch(58% 0.01 250), oklch(50% 0.01 250));
-        --accent-main: light-dark(oklch(52% 0.16 255), oklch(70% 0.15 250));
-        --accent-glow: light-dark(oklch(60% 0.25 260 / 0.18), oklch(60% 0.25 260 / 0.15));
-        --status-success: light-dark(oklch(58% 0.17 155), oklch(75% 0.18 150));
-      }
+    html::-webkit-scrollbar {
+      width: 14px;
+    }
+    html::-webkit-scrollbar-track {
+      background: var(--bg-base);
+    }
+    html::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 100px;
+      border: 4px solid var(--bg-base);
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
     }
 
     body {
@@ -394,6 +398,12 @@
         animation: none !important;
         opacity: 0.8;
       }
+    }
+
+    /* Firefox - new syntax */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-strong) var(--bg-base);
     }
 
   </style>
