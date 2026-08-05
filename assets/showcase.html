@@ -137,8 +137,8 @@
 
     /* --- ENTRANCE ANIMATION --- */
     @keyframes fadeIn {
-      0% { opacity: 0; filter: blur(4px); transform: translateY(10px); }
-      100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     /* --- BENTO GRID LAYOUT --- */
@@ -313,7 +313,7 @@
       padding: 0.625rem 0.875rem;
       border-radius: 0.5rem;
       font-size: 0.875rem;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       transition: all 0.3s var(--ease-smooth);
       background: transparent;
       border: 1px solid transparent;
