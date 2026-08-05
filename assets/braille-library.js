@@ -96,16 +96,16 @@
     '  background: linear-gradient(\n' +
     '    90deg,\n' +
     '    var(--spinner-shimmer-base) 0%,\n' +
-    '    color-mix(in srgb, var(--spinner-shimmer-base) 80%, var(--spinner-shimmer-peak)) 30%,\n' +
+    '    color-mix(in oklch, var(--spinner-shimmer-base) 80%, var(--spinner-shimmer-peak)) 30%,\n' +
     '    var(--spinner-shimmer-peak) 50%,\n' +
-    '    color-mix(in srgb, var(--spinner-shimmer-base) 80%, var(--spinner-shimmer-peak)) 70%,\n' +
+    '    color-mix(in oklch, var(--spinner-shimmer-base) 80%, var(--spinner-shimmer-peak)) 70%,\n' +
     '    var(--spinner-shimmer-base) 100%\n' +
     '  );\n' +
     '  background-size: 200% 100%;\n' +
     '  color: transparent;\n' +
     '  -webkit-background-clip: text;\n' +
     '  background-clip: text;\n' +
-    '  will-change: background-position, filter, opacity;\n' +
+    '  will-change: opacity;\n' +
     '  pointer-events: none;\n' +
     '}\n' +
     '\n' +
